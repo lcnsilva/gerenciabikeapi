@@ -1,13 +1,19 @@
 {
   "dependencies": {
-    "nodejs": "^0.0.0"
+    "@dotenvx/dotenvx": "^1.19.2",
+    "express": "^4.21.1",
+    "mongodb": "^6.9.0",
+    "mongoose": "^8.7.1",
+    "nodejs": "^0.0.0",
+    "nodemon": "^3.1.7"
   },
   "name": "backend-gerenciabike",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./api/index.js"
   },
   "author": "",
   "license": "ISC",
