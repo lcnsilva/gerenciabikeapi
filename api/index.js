@@ -1,41 +1,32 @@
 import express from 'express'
-import client from './mqtt.js'
+import { config } from '@dotenvx/dotenvx';
+import MqttController from './mqtt/mqtt.js';
+import conexaoDb from './config/conexaoDb.js';
 
+
+
+config();
 const app = express();
 const PORT = 3000;
-var vetor = [];
+const topic = process.env.MQTT_TOPIC;
+const mensagens = MqttController.receberMensagem(topic);
+MqttController.conectarTopico(topic);
+MqttController.enviarMensagem(topic);
 
 
-const topic = 'gerenciabike/test'
-
-client.on('connect', () => {
-    console.log('Connected')
-    client.subscribe([topic], () => {
-        console.log(`Subscribe to topic '${topic}'`)
-    })
-})
-
-client.on('message', (topic, payload) => {
-    console.log('Received Message:', topic, payload.toString())
-    vetor.push({msg: payload.toString()});
-})
-
-client.on('connect', () => {
-    client.publish(topic, 'nodejs1 mqtt test', { qos: 0, retain: false }, (error) => {
-        if (error) {
-            console.error(error)
-        }
-    })
+var db = await conexaoDb();
+db.once("connected", () => {
+    console.log("Conectado ao banco de dados.")
 })
 
 app.use(express.json());
 
 app.get('/', (req,res) => {
-    res.json(vetor);
+    res.json(mensagens);
 })
 
 app.get('/reset', (req,res) => {
-    vetor = [];
+    mensagens = [];
     res.status(200).send("Vetor reiniciado");
 })
 
