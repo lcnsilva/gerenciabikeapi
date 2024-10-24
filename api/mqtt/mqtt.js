@@ -7,7 +7,7 @@ class MqttController {
     static conectarTopico = (topic) => {
         try{
             client.on('connect', () => {
-                console.log('Connected')
+                console.log('Client MQTT Connected')
                 client.subscribe([topic], () => {
                     console.log(`Subscribe to topic '${topic}'`)
                 })
