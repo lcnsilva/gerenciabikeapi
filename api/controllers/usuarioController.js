@@ -146,6 +146,8 @@ class UsuarioController {
         // const token = authHeader && authHeader.split(" ")[1] //só usaria desse jeito caso viesse Bearer + token
         const token = authHeader;
         console.log(token);
+
+
         if(!token){
             return res.status(401).json({msg: "Acesso negado."})
         }    

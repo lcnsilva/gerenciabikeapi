@@ -3,8 +3,10 @@ import { config } from '@dotenvx/dotenvx';
 import MqttController from './mqtt/mqtt.js';
 import conexaoDb from './config/conexaoDb.js';
 import usuarioRoutes from './routes/usuarioRoutes.js'
+
 import bicicletaRoutes from './routes/bicicletaRoutes.js'
 import cors from 'cors';
+
 
 config();
 const app = express();
@@ -36,6 +38,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(usuarioRoutes);
 app.use(bicicletaRoutes);
+
 
 
 app.get('/', MqttController.listarLogs);
