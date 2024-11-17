@@ -1,8 +1,9 @@
 import client from './client.js'
+import Bicicletas from '../models/bicicleta.js';
+import Log from '../models/Log.js';
 
 class MqttController {
 
-    static mensagens = [];
 
     static conectarTopico = (topic) => {
         try{
@@ -16,22 +17,43 @@ class MqttController {
             console.log(error);
         }
     }
+
     static receberMensagem = (topic) => {
         try{
-            client.on('message', (receivedTopic, payload) => {
+            client.on('message', async (receivedTopic, payload) => {
                 if(receivedTopic === topic) {
-                    console.log('Received Message:', topic, payload.toString())
-                    this.mensagens.push({
-                        msg: payload.toString(),
-                        horario: new Date().toLocaleString()
+                    let tag = payload.toString();
+                    const bicicleta = await Bicicletas.findOne({
+                        tagRfid: tag
                     })
+                    if(bicicleta){
+                        const log = await Log.create({
+                            bicicleta: bicicleta._id,
+                        });
+                        const newBicicleta = await Bicicletas.findById(log.bicicleta._id);
+                        // await Bicicletas.findByIdAndUpdate(bicicleta._id, {
+                            //CRIAR LÓGICA PARA ALTERAR O ESTADO
+                        // })
+                        console.log(newBicicleta.tagRfid);              
+                    }
+                    console.log('Received Message:', topic, payload.toString())
                 }                
             })
-            return this.mensagens;
         }catch(error) {
             console.log(error);
         }
     }
+    
+    static listarLogs =  async (req,res) => {
+        try{
+            const logs = await Log.find({}).populate('bicicleta');
+            res.status(200).json(logs);
+        }catch(error){
+            console.log(error);
+            res.status(500).json({msg: "Erro ao pesquisar Logs."})
+        }
+    }
+
     static enviarMensagem = (topic) => {
         try{
             client.on('connect', () => {
