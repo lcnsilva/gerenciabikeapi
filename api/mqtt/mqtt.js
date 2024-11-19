@@ -4,7 +4,7 @@ import Log from '../models/Log.js';
 import BicicletaController from '../controllers/bicicletaController.js';
 
 class MqttController {
-
+  
     static conectarTopico = (topic) => {
         try{
             client.on('connect', () => {
@@ -32,6 +32,7 @@ class MqttController {
                         });
                         const newBicicleta = await BicicletaController.disponibilidadeBicicleta(bicicleta);
                         console.log(newBicicleta)           
+
                     }
                     console.log('Received Message:', topic, payload.toString())
                 }                

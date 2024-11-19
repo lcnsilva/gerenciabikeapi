@@ -15,11 +15,13 @@ MqttController.receberMensagem(topic);
 MqttController.conectarTopico(topic);
 
 var db = await conexaoDb();
+
 db.once("connected", () => {
     console.log("Conectado ao banco de dados.")
 })
 
 const allowedOrigins = ['http://localhost:5173', 'https://gerenciabike.vercel.app/'];
+
 const corsOptions = {
     origin: function (origin, callback) {
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -32,6 +34,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(usuarioRoutes);
 app.use(bicicletaRoutes);

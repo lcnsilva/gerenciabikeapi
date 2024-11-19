@@ -87,6 +87,7 @@ class BicicletaController {
             return {msg: 'A bicicleta está em manutenção.'};
         }catch(error){
             console.log(error);
+
         }
     }
 

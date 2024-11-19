@@ -10,4 +10,5 @@ routes.put('/bicicletas/:id', BicicletaController.atualizarBicicleta);
 routes.delete('/bicicletas/:id', BicicletaController.excluirBicicleta);
 routes.get('/manutencao/:id', BicicletaController.manutencaoBicicleta);
 
+
 export default routes;
