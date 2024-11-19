@@ -7,6 +7,7 @@ routes.get('/bicicletas', BicicletaController.listarBicicletas);
 routes.get('/bicicletas/:id', BicicletaController.listarBicicletasPorId);
 routes.post('/bicicletas', BicicletaController.criarBicicleta);
 routes.put('/bicicletas/:id', BicicletaController.atualizarBicicleta);
-routes.delete('/bicicletas', BicicletaController.excluirBicicleta);
+routes.delete('/bicicletas/:id', BicicletaController.excluirBicicleta);
+routes.get('/manutencao/:id', BicicletaController.manutencaoBicicleta);
 
 export default routes;

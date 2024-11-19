@@ -72,19 +72,41 @@ class BicicletaController {
         }
     }
 
-    static disponibilidadeBicicleta = async(req,res) => {
+    static disponibilidadeBicicleta = async(bicicleta) => {
         try{
+            let id = bicicleta._id
+            let disponivel = bicicleta.disponivel
+            if(!bicicleta.manutencao){
+                const bicicleta = await Bicicletas.findByIdAndUpdate(id, {$set: {
+                    disponivel: !disponivel
+                }},
+                {new: true});
+                return bicicleta;
+            }
             
+            return {msg: 'A bicicleta está em manutenção.'};
         }catch(error){
-            
+            console.log(error);
         }
     }
 
     static manutencaoBicicleta = async(req,res) => {
         try{
-
+            let {id} = req.params;
+            const bicicleta = await Bicicletas.findById(id);
+            let novoEstadoManutencao = !bicicleta.manutencao;
+            let novoEstadoDisponibilidade = bicicleta.disponivel;
+            if(novoEstadoManutencao){
+                novoEstadoDisponibilidade = false;
+            }
+            const newBicicleta = await Bicicletas.findByIdAndUpdate(id, {$set: {
+                manutencao: novoEstadoManutencao,
+                disponivel: novoEstadoDisponibilidade
+            }},
+            {new: true});
+            res.status(200).json(newBicicleta);
         }catch(error){
-            
+            console.log(error);
         }
     }
 }

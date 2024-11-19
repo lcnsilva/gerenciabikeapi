@@ -1,9 +1,9 @@
 import client from './client.js'
 import Bicicletas from '../models/bicicleta.js';
 import Log from '../models/Log.js';
+import BicicletaController from '../controllers/bicicletaController.js';
 
 class MqttController {
-
 
     static conectarTopico = (topic) => {
         try{
@@ -30,11 +30,8 @@ class MqttController {
                         const log = await Log.create({
                             bicicleta: bicicleta._id,
                         });
-                        const newBicicleta = await Bicicletas.findById(log.bicicleta._id);
-                        // await Bicicletas.findByIdAndUpdate(bicicleta._id, {
-                            //CRIAR LÓGICA PARA ALTERAR O ESTADO
-                        // })
-                        console.log(newBicicleta.tagRfid);              
+                        const newBicicleta = await BicicletaController.disponibilidadeBicicleta(bicicleta);
+                        console.log(newBicicleta)           
                     }
                     console.log('Received Message:', topic, payload.toString())
                 }                
