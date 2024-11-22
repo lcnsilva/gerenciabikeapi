@@ -20,7 +20,7 @@ db.once("connected", () => {
     console.log("Conectado ao banco de dados.")
 })
 
-const allowedOrigins = ['http://localhost:5173', 'https://gerenciabike.vercel.app/'];
+const allowedOrigins = ['http://localhost:5173', 'https://gerenciabike.vercel.app']
 
 const corsOptions = {
     origin: function (origin, callback) {
